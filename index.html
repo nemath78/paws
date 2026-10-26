@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pawfect Homes – Rehome with love</title>
+<style>
+:root{--bg:#fff7f3;--card:#fff;--ink:#4a3b47;--mute:#8a7886;--pink:#ff9eb5;--peach:#ffd2b3;--mint:#bfeadb;--lav:#d9ccff;--line:#f3e3df;--shadow:0 6px 20px rgba(255,158,181,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241c24;--card:#32283a;--ink:#f6e9ef;--mute:#bba9b8;--line:#443850;--shadow:0 6px 20px rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#241c24;--card:#32283a;--ink:#f6e9ef;--mute:#bba9b8;--line:#443850;--shadow:0 6px 20px rgba(0,0,0,.35);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito','Quicksand',ui-rounded,system-ui,sans-serif;line-height:1.5}
+h1,h2,h3{font-family:'Fredoka','Baloo 2',ui-rounded,system-ui,sans-serif;margin:0}
+.wrap{max-width:980px;margin:auto;padding:0 16px}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:8px;flex-wrap:wrap}
+.logo{font-size:1.4rem;font-weight:700}
+nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+button,.btn{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:9px 16px;background:var(--pink);color:#4a2333;font-weight:700;box-shadow:var(--shadow)}
+button.soft{background:var(--card);color:var(--ink);box-shadow:none;border:2px solid var(--line)}
+button:active{transform:scale(.96)}
+.hero{text-align:center;padding:28px 12px;background:linear-gradient(135deg,var(--peach),var(--lav));border-radius:28px;margin:8px 0 20px;color:#4a3b47}
+.hero h1{font-size:clamp(1.7rem,6vw,2.6rem)}
+.hero p{max-width:520px;margin:10px auto 16px}
+.trust{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.trust span{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.85rem}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+.tab{flex:none;background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.tab.on{background:var(--mint);color:#2d4a3f;border-color:var(--mint)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin:10px 0 30px}
+.card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);border:2px solid var(--line)}
+.ph{height:150px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:var(--lav);background-size:cover;background-position:center}
+.cb{padding:12px 14px}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--mint);color:#2d4a3f}
+.tag.sell{background:var(--peach);color:#5a3a1f}
+.mute{color:var(--mute);font-size:.88rem}
+section{margin:30px 0}
+.post{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0}
+input,select,textarea{font:inherit;width:100%;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);margin:5px 0}
+.modal{position:fixed;inset:0;background:rgba(40,20,35,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.open{display:flex}
+.box{background:var(--card);border-radius:24px;padding:20px;width:100%;max-width:400px;max-height:90vh;overflow:auto}
+.row{display:flex;gap:8px}.row>*{flex:1}
+footer{text-align:center;padding:26px 0 34px;color:var(--mute)}
+footer b{color:var(--pink)}
+.empty{text-align:center;padding:30px;color:var(--mute);grid-column:1/-1}
+</style></head>
+<body><div class="wrap">
+<header><div class="logo">🐾 Pawfect Homes</div>
+<nav><button class="soft" onclick="go('browse')">Browse</button><button class="soft" onclick="go('community')">Community</button><button id="authBtn" onclick="authBtn()">Sign in</button></nav></header>
+
+<div class="hero"><h1>Moving away? Don’t leave them behind 💕</h1>
+<p>Every pet deserves a loving home. Post your cat, rabbit or friend, and let kind people find them – no street, no stress.</p>
+<button onclick="postBtn()">+ Rehome a pet</button></div>
+<div class="trust"><span>🔒 Passwords encrypted</span><span>💛 Sign-in to post</span><span>🏡 Made for caring homes</span></div>
+
+<section id="browse"><h2>Find a friend 🧸</h2>
+<div class="tabs" id="cats"></div>
+<div class="tabs" id="types"></div>
+<div class="grid" id="grid"></div></section>
+
+<section id="community"><h2>Community 🌷</h2>
+<p class="mute">Share tips, ask for help, or celebrate a new home. Pick a space:</p>
+<div class="tabs" id="ctabs"></div>
+<div id="posts"></div>
+<div class="post"><textarea id="ptext" rows="2" placeholder="Say something kind or ask for advice…"></textarea><button onclick="addPost()">Share</button></div></section>
+
+<footer>Made with 💗 by <b>Nemath</b> &amp; <b>Tanaaz</b><br><span class="mute">Pawfect Homes · every paw finds a home</span></footer>
+</div>
+
+<div class="modal" id="mAuth"><div class="box"><h3 id="aT">Welcome back 🐱</h3>
+<input id="aN" placeholder="Your name" style="display:none"><input id="aE" type="email" placeholder="Email"><input id="aP" type="password" placeholder="Password (6+ characters)">
+<p class="mute">🔒 Your password is salted and hashed with PBKDF2 before it’s saved – never stored as plain text.</p>
+<p id="aErr" style="color:#d6456b;margin:0"></p>
+<div class="row"><button onclick="auth()" id="aGo">Sign in</button><button class="soft" onclick="closeM('mAuth')">Cancel</button></div>
+<p class="mute" style="text-align:center"><a href="#" onclick="flip();return false" id="aSw" style="color:var(--pink)">New here? Create account</a></p></div></div>
+
+<div class="modal" id="mPost"><div class="box"><h3>Rehome a pet 🏡</h3>
+<input id="pN" placeholder="Pet’s name"><select id="pC"></select>
+<div class="row"><select id="pT"><option value="adopt">Free adoption</option><option value="sell">For sale</option></select><input id="pPr" placeholder="Price"></div>
+<input id="pL" placeholder="City / country"><textarea id="pD" rows="3" placeholder="Age, personality, why they need a new home…"></textarea>
+<input type="file" id="pF" accept="image/*">
+<p id="pErr" style="color:#d6456b;margin:0"></p>
+<div class="row"><button onclick="savePet()">Post</button><button class="soft" onclick="closeM('mPost')">Cancel</button></div></div></div>
+
+<script>
+const CATS={cat:['🐱','Cats'],dog:['🐶','Dogs'],rabbit:['🐰','Rabbits'],bird:['🐦','Birds'],other:['🐹','Others']};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+let users=ld('pp_u',[]),me=ld('pp_s',null),cat='all',typ='all',cc='cat',signup=false;
+let pets=ld('pp_p',null)||[
+ {n:'Mochi',c:'cat',t:'adopt',l:'Dubai',d:'Cuddly 2-year-old, owner relocating.',by:'Sample'},
+ {n:'Biscuit',c:'rabbit',t:'adopt',l:'Toronto',d:'Gentle bunny, loves carrots.',by:'Sample'},
+ {n:'Luna',c:'cat',t:'sell',p:'$80',l:'London',d:'Vaccinated Persian kitten.',by:'Sample'},
+ {n:'Kiwi',c:'bird',t:'adopt',l:'Delhi',d:'Cheerful budgie with cage.',by:'Sample'}];
+let posts=ld('pp_c',null)||[{c:'cat',u:'Tanaaz',x:'Tip: bring a familiar blanket when meeting a new adopter 🧶'},{c:'rabbit',u:'Nemath',x:'Rabbits need hay daily – ask adopters about it!'}];
+function chips(el,items,cur,fn){$(el).innerHTML=items.map(([k,l])=>`<button class="tab ${k==cur?'on':''}" onclick="${fn}('${k}')">${l}</button>`).join('')}
+function render(){
+ chips('cats',[['all','🌈 All'],...Object.entries(CATS).map(([k,v])=>[k,v[0]+' '+v[1]])],cat,'setCat');
+ chips('types',[['all','All'],['adopt','💛 Adoption'],['sell','🏷️ For sale']],typ,'setTyp');
+ chips('ctabs',Object.entries(CATS).map(([k,v])=>[k,v[0]+' '+v[1]]),cc,'setCc');
+ const L=pets.filter(p=>(cat=='all'||p.c==cat)&&(typ=='all'||p.t==typ));
+ $('grid').innerHTML=L.length?L.map(p=>`<div class="card"><div class="ph" style="${p.img?`background-image:url(${p.img})`:''}">${p.img?'':CATS[p.c][0]}</div><div class="cb"><h3>${esc(p.n)}</h3><span class="tag ${p.t}">${p.t=='sell'?'For sale '+esc(p.p||''):'Free adoption'}</span><p class="mute">📍 ${esc(p.l)}<br>${esc(p.d)}</p><button onclick="contact('${esc(p.by)}')">Say hello 💌</button></div></div>`).join(''):'<div class="empty">No pets here yet 🌱 Be the first to post!</div>';
+ const P=posts.filter(p=>p.c==cc);
+ $('posts').innerHTML=P.length?P.map(p=>`<div class="post"><b>${esc(p.u)}</b><br>${esc(p.x)}</div>`).join(''):'<div class="post mute">Quiet here – start the conversation 🌼</div>';
+ $('authBtn').textContent=me?'Hi, '+me.name+' · Sign out':'Sign in';
+}
+const setCat=k=>{cat=k;render()},setTyp=k=>{typ=k;render()},setCc=k=>{cc=k;render()};
+const go=id=>$(id).scrollIntoView();
+const openM=id=>$(id).classList.add('open'),closeM=id=>$(id).classList.remove('open');
+function authBtn(){if(me){me=null;sv('pp_s',null);render()}else{flip(true);openM('mAuth')}}
+function flip(reset){signup=reset?false:!signup;$('aN').style.display=signup?'block':'none';$('aT').textContent=signup?'Join the family 🐰':'Welcome back 🐱';$('aGo').textContent=signup?'Create account':'Sign in';$('aSw').textContent=signup?'Have an account? Sign in':'New here? Create account';$('aErr').textContent=''}
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+async function hash(pw,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},k,256))}
+async function auth(){
+ const e=$('aE').value.trim().toLowerCase(),p=$('aP').value,n=$('aN').value.trim();
+ if(!/^\S+@\S+\.\S+$/.test(e)||p.length<6){$('aErr').textContent='Enter a valid email and 6+ character password.';return}
+ try{
+  if(signup){if(!n){$('aErr').textContent='Please add your name.';return}
+   if(users.find(u=>u.e==e)){$('aErr').textContent='That email already has an account.';return}
+   const s=crypto.getRandomValues(new Uint8Array(16));users.push({e,n,s:hex(s),h:await hash(p,s)});sv('pp_u',users);me={name:n,e}}
+  else{const u=users.find(u=>u.e==e);const s=u&&Uint8Array.from(u.s.match(/../g).map(x=>parseInt(x,16)));
+   if(!u||await hash(p,s)!==u.h){$('aErr').textContent='Email or password doesn’t match.';return}me={name:u.n,e}}
+ }catch(x){$('aErr').textContent='Encryption needs a secure (https) page.';return}
+ sv('pp_s',me);closeM('mAuth');$('aP').value='';render();
+}
+function postBtn(){if(!me){flip(true);openM('mAuth');$('aErr').textContent='Please sign in to post a pet 💛';return}
+ $('pC').innerHTML=Object.entries(CATS).map(([k,v])=>`<option value="${k}">${v[0]} ${v[1]}</option>`).join('');$('pErr').textContent='';openM('mPost')}
+function resize(f){return new Promise(r=>{const i=new Image();i.onload=()=>{const m=420,s=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.7))};i.onerror=()=>r(null);i.src=URL.createObjectURL(f)})}
+async function savePet(){
+ const n=$('pN').value.trim(),l=$('pL').value.trim();if(!n||!l){$('pErr').textContent='Name and location please 🐾';return}
+ const f=$('pF').files[0],img=f?await resize(f):null,t=$('pT').value;
+ pets.unshift({n,c:$('pC').value,t,p:t=='sell'?$('pPr').value.trim():'',l,d:$('pD').value.trim(),img,by:me.name});
+ if(!sv('pp_p',pets)){pets[0].img=null;sv('pp_p',pets)}
+ closeM('mPost');['pN','pPr','pL','pD','pF'].forEach(i=>$(i).value='');go('browse');render();
+}
+function addPost(){if(!me){flip(true);openM('mAuth');$('aErr').textContent='Sign in to join the chat 💬';return}
+ const x=$('ptext').value.trim();if(!x)return;posts.unshift({c:cc,u:me.name,x});sv('pp_c',posts);$('ptext').value='';render()}
+function contact(n){alert(me?'Messaging is coming soon! This pet was posted by '+n+' 💌':'Please sign in to contact '+n+' 💛')}
+render();
+</script></body></html>
